@@ -79,4 +79,6 @@ class VentanaPrincipal(object):
 
     # modificado por Alejandro 31-10-2021
     def enviar_mensaje(self):
-        pass
+        self.texto_mensaje.update()
+        texto = self.texto_mensaje.toPlainText()
+        print(texto)
