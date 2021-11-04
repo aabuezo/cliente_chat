@@ -1,4 +1,4 @@
-from controlador.controlador import lista_combo, lista_mensajes
+from controlador.controlador import lista_combo, lista_mensajes, Cliente
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox
 import sys
@@ -19,6 +19,10 @@ class App():
 
 
 class VentanaPrincipal(object):
+    def __init__(self):
+        self.cliente = Cliente()
+        self.destinatario = ''
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(271, 444)
@@ -29,6 +33,7 @@ class VentanaPrincipal(object):
         self.boton_enviar = QtWidgets.QPushButton(self.centralwidget)
         self.boton_enviar.setGeometry(QtCore.QRect(10, 350, 251, 31))
         self.boton_enviar.setObjectName("boton_enviar")
+        self.boton_enviar.clicked.connect(self.enviar_mensaje)
 
         # combo contactos
         self.combo_contactos = QtWidgets.QComboBox(self.centralwidget)
@@ -75,10 +80,11 @@ class VentanaPrincipal(object):
 
     # modificado por Alejandro 31-10-2021
     def combo_pressed(self):
-        print(self.combo_contactos.currentText())
+        self.destinatario = self.combo_contactos.currentText()
+        print(self.destinatario)
 
-    # modificado por Alejandro 31-10-2021
+    # modificado por Alejandro 1-11-2021
     def enviar_mensaje(self):
-        self.texto_mensaje.update()
         texto = self.texto_mensaje.toPlainText()
+        self.cliente.enviar_mensaje(texto)
         print(texto)

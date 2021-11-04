@@ -1,11 +1,11 @@
 import pickle
 import threading
-from socket import socket
+import socket
 
 
 class Cliente:
 
-    def __init__(self, host='localhost', port=30000):
+    def __init__(self, host='localhost', port=3100):
 
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock.connect((host, port))
