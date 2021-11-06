@@ -88,3 +88,4 @@ class VentanaPrincipal(object):
         texto = self.texto_mensaje.toPlainText()
         self.cliente.enviar_mensaje(texto)
         print(texto)
+        self.texto_mensaje.setText('')
