@@ -1,31 +1,35 @@
-import pickle
-import threading
 import socket
+import sys
+import threading
 
 
-class Cliente:
+class Client:
+    def __init__(self, host='localhost', port=3000):
+        self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self._socket.connect( (host, port))
+        self._receive = threading.Thread(target=self.receive)
+        self._receive.daemon = True
+        self._receive.start()
+        # while True:
+        #     self.send()
 
-    def __init__(self, host='localhost', port=3100):
-
-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.sock.connect((host, port))
-
-        msg_recv = threading.Thread(target=self.recibir_mensaje)
-
-        msg_recv.daemon = True
-        msg_recv.start()
-
-    def recibir_mensaje(self):
+    def receive(self):
         while True:
-            try:
-                data = self.sock.recv(1024)
-                if data:
-                    print(pickle.loads(data))
-            except:
-                pass
+            packet = self._socket.recv(1024)
+            if packet:
+                msg = packet.decode('utf-8')
+                print(msg)
+
+    def send(self):
+        msg = input('Mensaje: ')
+        if msg == 'salir':
+            self._socket.close()
+            sys.exit()
+        else:
+            self._socket.send(msg.encode('utf-8'))
 
     def enviar_mensaje(self, msg):
-        self.sock.send(pickle.dumps(msg))
+        self._socket.send(msg.encode('utf-8'))
 
 
 # datos de prueba - borrar!!!
@@ -57,3 +61,6 @@ lista_mensajes = [
     'esta es una linea muuuuuuy laaaaaaaaaaaaargaaaaaaaaaaaaaaaaaa de varias lineas para el ListWidget'
 ]
 
+
+if __name__ == '__main__':
+    cli = Client()

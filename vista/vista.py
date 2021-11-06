@@ -1,4 +1,4 @@
-from controlador.controlador import lista_combo, lista_mensajes, Cliente
+from controlador.controlador import lista_combo, lista_mensajes, Client
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox
 import sys
@@ -20,7 +20,7 @@ class App():
 
 class VentanaPrincipal(object):
     def __init__(self):
-        self.cliente = Cliente()
+        self.cliente = Client()
         self.destinatario = ''
 
     def setupUi(self, MainWindow):
