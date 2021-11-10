@@ -1,6 +1,8 @@
-from controlador.controlador import lista_combo, lista_mensajes, Client
+from controlador.controlador import contactos, lista_mensajes, Client, nombre
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox
+import threading
+import time
 import sys
 
 
@@ -28,6 +30,8 @@ class VentanaPrincipal(object):
         MainWindow.resize(271, 444)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
+        self.actualizar = threading.Thread(target=self.actualizar_lista_mensajes)
+        self.actualizar.daemon = True
 
         # boton enviar
         self.boton_enviar = QtWidgets.QPushButton(self.centralwidget)
@@ -40,7 +44,7 @@ class VentanaPrincipal(object):
         self.combo_contactos.setGeometry(QtCore.QRect(10, 10, 251, 23))
         self.combo_contactos.setObjectName("combo_contactos")
         # modificado por Alejandro 31-10-2021
-        self.combo_contactos.addItems(lista_combo)
+        self.combo_contactos.addItems(contactos)
         self.combo_contactos.currentTextChanged.connect(self.combo_pressed)
 
         # texto a enviar
@@ -54,7 +58,7 @@ class VentanaPrincipal(object):
         self.lista_mensajes.setObjectName("lista_mensajes")
         # modificado por Alejandro 31-10-2021
         self.lista_mensajes.setWordWrap(True)
-        self.lista_mensajes.addItems(lista_mensajes)
+        self.actualizar.start()
 
         # boton salir
         self.boton_salir = QtWidgets.QPushButton(self.centralwidget)
@@ -86,6 +90,15 @@ class VentanaPrincipal(object):
     # modificado por Alejandro 1-11-2021
     def enviar_mensaje(self):
         texto = self.texto_mensaje.toPlainText()
-        self.cliente.enviar_mensaje(texto)
+        mensaje = nombre + texto
+        self.cliente.enviar_mensaje(mensaje)
+        lista_mensajes.append(nombre.rstrip() + ': ' + texto)
+        self.actualizar_lista_mensajes()
         print(texto)
         self.texto_mensaje.setText('')
+
+    def actualizar_lista_mensajes(self):
+        self.lista_mensajes.clear()
+        self.lista_mensajes.addItems(lista_mensajes)
+        time.sleep(.1)
+

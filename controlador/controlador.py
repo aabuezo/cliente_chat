@@ -2,6 +2,10 @@ import socket
 import sys
 import threading
 
+contactos = ['Pablo     ', 'Alejandro ']
+lista_mensajes = []
+nombre = 'Juan      '
+
 
 class Client:
     def __init__(self, host='localhost', port=3000):
@@ -17,7 +21,11 @@ class Client:
         while True:
             packet = self._socket.recv(1024)
             if packet:
-                msg = packet.decode('utf-8')
+                data = packet.decode('utf-8')
+                sender = data[:10].rstrip()
+                text = data[10:]
+                msg = sender + ': ' + text
+                self.actualizar_lista_mensajes(msg)
                 print(msg)
 
     def send(self):
@@ -31,35 +39,8 @@ class Client:
     def enviar_mensaje(self, msg):
         self._socket.send(msg.encode('utf-8'))
 
-
-# datos de prueba - borrar!!!
-lista_combo = ['Juan', 'Jose', 'Pedro', 'Mario']
-lista_mensajes = [
-    'Hola amigo',
-    'como estas',
-    'tanto tiemo?,'
-    'todo bien?',
-    'se te extraña loco!',
-    'abrazo grande y',
-    'espero verte pronto!',
-    'esta es una linea muuuuuuy laaaaaaaaaaaaargaaaaaaaaaaaaaaaaaa de varias lineas para el ListWidget',
-    'Hola amigo',
-    'como estas',
-    'tanto tiemo?,'
-    'todo bien?',
-    'se te extraña loco!',
-    'abrazo grande y',
-    'espero verte pronto!',
-    'esta es una linea muuuuuuy laaaaaaaaaaaaargaaaaaaaaaaaaaaaaaa de varias lineas para el ListWidget',
-    'Hola amigo',
-    'como estas',
-    'tanto tiemo?,'
-    'todo bien?',
-    'se te extraña loco!',
-    'abrazo grande y',
-    'espero verte pronto!',
-    'esta es una linea muuuuuuy laaaaaaaaaaaaargaaaaaaaaaaaaaaaaaa de varias lineas para el ListWidget'
-]
+    def actualizar_lista_mensajes(self, msg):
+        lista_mensajes.append(msg)
 
 
 if __name__ == '__main__':
