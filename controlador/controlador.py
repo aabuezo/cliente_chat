@@ -4,7 +4,7 @@ import threading
 
 contactos = ['Pablo     ', 'Alejandro ']
 lista_mensajes = []
-nombre = 'Juan      '
+nombre = 'Yo        '
 
 
 class Client:
