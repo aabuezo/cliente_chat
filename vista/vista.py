@@ -103,13 +103,14 @@ class VentanaPrincipal(object):
             self.texto_mensaje.setText('')
 
     def recibir_mensaje(self):
-        try:
-            self.cliente.recibir_mensaje()
-        except Notificacion:
-            self.actualizar_lista_mensajes()
+        while True:
+            try:
+                self.cliente.recibir_mensaje()
+            except Notificacion:
+                self.actualizar_lista_mensajes()
 
     def actualizar_lista_mensajes(self):
         self.lista_mensajes.clear()
         self.lista_mensajes.addItems(self.cliente.mensajes)
-        # time.sleep(.1)
+
 
