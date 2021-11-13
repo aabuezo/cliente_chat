@@ -1,4 +1,4 @@
-from controlador.controlador import contactos, lista_mensajes, Client, nombre
+from controlador.controlador import Client, Notificacion
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox
 import threading
@@ -44,7 +44,7 @@ class VentanaPrincipal(object):
         self.combo_contactos.setGeometry(QtCore.QRect(10, 10, 251, 23))
         self.combo_contactos.setObjectName("combo_contactos")
         # modificado por Alejandro 31-10-2021
-        self.combo_contactos.addItems(contactos)
+        self.combo_contactos.addItems(self.cliente.contactos)
         self.combo_contactos.currentTextChanged.connect(self.combo_pressed)
 
         # texto a enviar
@@ -76,6 +76,10 @@ class VentanaPrincipal(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+        self._recv = threading.Thread(target=self.recibir_mensaje)
+        self._recv.daemon = True
+        self._recv.start()
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Chat Client"))
@@ -90,15 +94,22 @@ class VentanaPrincipal(object):
     # modificado por Alejandro 1-11-2021
     def enviar_mensaje(self):
         texto = self.texto_mensaje.toPlainText()
-        mensaje = nombre + texto
-        self.cliente.enviar_mensaje(mensaje)
-        lista_mensajes.append(nombre.rstrip() + ': ' + texto)
-        self.actualizar_lista_mensajes()
-        print(texto)
-        self.texto_mensaje.setText('')
+        if texto != '':
+            mensaje = self.cliente.nombre + texto
+            self.cliente.enviar_mensaje(mensaje)
+            self.cliente.mensajes.append(self.cliente.nombre.rstrip() + ': ' + texto)
+            self.actualizar_lista_mensajes()
+            print(texto)
+            self.texto_mensaje.setText('')
+
+    def recibir_mensaje(self):
+        try:
+            self.cliente.recibir_mensaje()
+        except Notificacion:
+            self.actualizar_lista_mensajes()
 
     def actualizar_lista_mensajes(self):
         self.lista_mensajes.clear()
-        self.lista_mensajes.addItems(lista_mensajes)
-        time.sleep(.1)
+        self.lista_mensajes.addItems(self.cliente.mensajes)
+        # time.sleep(.1)
 
