@@ -2,7 +2,6 @@ from controlador.controlador import Client, Notificacion
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox
 import threading
-import time
 import sys
 
 
@@ -108,6 +107,9 @@ class VentanaPrincipal(object):
                 self.cliente.recibir_mensaje()
             except Notificacion:
                 self.actualizar_lista_mensajes()
+                # self.recibir_mensaje()
+            finally:
+                pass
 
     def actualizar_lista_mensajes(self):
         self.lista_mensajes.clear()
