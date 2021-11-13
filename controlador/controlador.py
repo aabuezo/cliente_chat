@@ -14,9 +14,9 @@ class Client:
         self.nombre = 'Yo        '
         self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self._socket.connect( (host, port))
-        self._recv = threading.Thread(target=self.recibir_mensaje)
-        self._recv.daemon = True
-        self._recv.start()
+        # self._recv = threading.Thread(target=self.recibir_mensaje)
+        # self._recv.daemon = True
+        # self._recv.start()
 
     def recibir_mensaje(self):
         while True:
