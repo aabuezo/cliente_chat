@@ -1,22 +1,21 @@
 import socket
-import sys
-import threading
 
 
 class Notificacion(Exception):
     pass
 
 
+class SinConexion(ConnectionError):
+    pass
+
+
 class Client:
-    def __init__(self, host='localhost', port=3000):
+    def __init__(self, host='localhost', port=4000):
         self.contactos = ['Turnos Med', '          ']
         self.mensajes = []
-        self.nombre = 'Yo        '
+        self.nombre = 'Alejandro '
         self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self._socket.connect( (host, port))
-        # self._recv = threading.Thread(target=self.recibir_mensaje)
-        # self._recv.daemon = True
-        # self._recv.start()
 
     def recibir_mensaje(self):
         while True:
@@ -31,4 +30,8 @@ class Client:
                 raise Notificacion
 
     def enviar_mensaje(self, msg):
-        self._socket.send(msg.encode('utf-8'))
+        try:
+            self._socket.send(msg.encode('utf-8'))
+        except socket.error:
+            raise SinConexion()
+

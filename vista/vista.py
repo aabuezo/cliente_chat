@@ -1,4 +1,4 @@
-from controlador.controlador import Client, Notificacion
+from controlador.controlador import Client, Notificacion, SinConexion
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox
 import threading
@@ -95,7 +95,11 @@ class VentanaPrincipal(object):
         texto = self.texto_mensaje.toPlainText()
         if texto != '':
             mensaje = self.cliente.nombre + texto
-            self.cliente.enviar_mensaje(mensaje)
+            try:
+                self.cliente.enviar_mensaje(mensaje)
+            except SinConexion:
+                self.statusbar.showMessage('Se cerro la conexión con el servidor!', 2000)
+                return
             self.cliente.mensajes.append(self.cliente.nombre.rstrip() + ': ' + texto)
             self.actualizar_lista_mensajes()
             print(texto)
