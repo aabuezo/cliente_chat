@@ -101,6 +101,7 @@ class VentanaPrincipal(object):
                 self.statusbar.showMessage('Se cerro la conexión con el servidor!', 2000)
                 return
             self.cliente.mensajes.append(self.cliente.nombre.rstrip() + ': ' + texto)
+            self.cliente.mensajes.append(self.cliente.separador)
             self.actualizar_lista_mensajes()
             print(texto)
             self.texto_mensaje.setText('')

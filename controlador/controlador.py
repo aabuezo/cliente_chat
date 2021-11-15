@@ -10,10 +10,11 @@ class SinConexion(ConnectionError):
 
 
 class Client:
-    def __init__(self, host='localhost', port=4000):
+    def __init__(self, host='localhost', port=3000):
         self.contactos = ['Turnos Med', '          ']
         self.mensajes = []
         self.nombre = 'Alejandro '
+        self.separador = '-' * 50
         self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self._socket.connect( (host, port))
 
@@ -26,6 +27,7 @@ class Client:
                 text = data[10:]
                 msg = sender + ': ' + text
                 self.mensajes.append(msg)
+                self.mensajes.append(self.separador)
                 print(msg)
                 raise Notificacion
 
