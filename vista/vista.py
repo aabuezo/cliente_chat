@@ -20,6 +20,7 @@ class App():
 
 
 class VentanaPrincipal(object):
+
     def __init__(self):
         self.cliente = Client()
         self.destinatario = ''
@@ -94,7 +95,7 @@ class VentanaPrincipal(object):
     def enviar_mensaje(self):
         texto = self.texto_mensaje.toPlainText()
         if texto != '':
-            mensaje = self.cliente.nombre + texto
+            mensaje = self.cliente.get_nombre() + texto
             try:
                 self.cliente.enviar_mensaje(mensaje)
             except SinConexion:

@@ -10,7 +10,8 @@ class SinConexion(ConnectionError):
 
 
 class Client:
-    def __init__(self, host='localhost', port=3000):
+
+    def __init__(self, host='localhost', port=6003):
         self.contactos = ['Turnos Med', '          ']
         self.mensajes = []
         self.nombre = 'Alejandro '
@@ -37,3 +38,5 @@ class Client:
         except socket.error:
             raise SinConexion()
 
+    def get_nombre(self):
+        return self.nombre
