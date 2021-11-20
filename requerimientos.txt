@@ -1,1 +1,5 @@
-PyQt5
+instalar PyQt5
+
+ejecutar primero el servidor
+luego ejecutar con: python main.py
+
