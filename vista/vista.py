@@ -1,11 +1,15 @@
+"""
+    Autor: Alejandro A. Buezo
+    Ultima modificación: 20-11-2021
+"""
 from controlador.controlador import Client, Notificacion, SinConexion
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QMessageBox
 import threading
 import sys
 
 
 class App():
+    """ App principal del cliente """
     def __init__(self):
         self.app = QtWidgets.QApplication(sys.argv)
         self.MainWindow = QtWidgets.QMainWindow()
@@ -14,13 +18,13 @@ class App():
         self.MainWindow.show()
         self.salir()
 
-    # modificado por Alejandro 31-10-2021
     def salir(self):
+        """ finalizar la aplicacion """
         sys.exit(self.app.exec_())
 
 
 class VentanaPrincipal(object):
-
+    """ vista de la ventana principal de la aplicación del cliente """
     def __init__(self):
         self.cliente = Client()
         self.destinatario = ''
@@ -86,13 +90,15 @@ class VentanaPrincipal(object):
         self.boton_enviar.setText(_translate("MainWindow", "&Enviar Mensaje"))
         self.boton_salir.setText(_translate("MainWindow", "&Salir"))
 
-    # modificado por Alejandro 31-10-2021
     def combo_pressed(self):
+        """ seleccionar destinatario del mensaje
+            (para uso futuro) """
         self.destinatario = self.combo_contactos.currentText()
         print(self.destinatario)
 
-    # modificado por Alejandro 1-11-2021
     def enviar_mensaje(self):
+        """ boton Enviar Mensaje de la vista """
+
         texto = self.texto_mensaje.toPlainText()
         if texto != '':
             mensaje = self.cliente.get_nombre() + texto
@@ -108,16 +114,18 @@ class VentanaPrincipal(object):
             self.texto_mensaje.setText('')
 
     def recibir_mensaje(self):
+        """ actualiza la lista de mensajes cuando se recibe un nuevo mensaje
+            se entera cuando el controlador lanza una excepcion de Notificacion """
         while True:
             try:
                 self.cliente.recibir_mensaje()
             except Notificacion:
                 self.actualizar_lista_mensajes()
-                # self.recibir_mensaje()
             finally:
                 pass
 
     def actualizar_lista_mensajes(self):
+        """ actualiza la lista de mensajes en la vista """
         self.lista_mensajes.clear()
         self.lista_mensajes.addItems(self.cliente.mensajes)
 
