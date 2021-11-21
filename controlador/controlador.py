@@ -4,10 +4,12 @@
 """
 import socket
 
+
 # si el servidor se ejecuta en otra maquina, se puede cambiar por la IP del servidor
 # entre comillas - recordar habilitar el PORT en el firewall del servidor
 HOST = 'localhost'
 PORT = 3000
+
 
 class Notificacion(Exception):
     """ se lanza esta excepcion cuando se quiere notificar que se recibio
