@@ -4,6 +4,10 @@
 """
 import socket
 
+# si el servidor se ejecuta en otra maquina, se puede cambiar por la IP del servidor
+# entre comillas - recordar habilitar el PORT en el firewall del servidor
+HOST = 'localhost'
+PORT = 3000
 
 class Notificacion(Exception):
     """ se lanza esta excepcion cuando se quiere notificar que se recibio
@@ -18,7 +22,7 @@ class SinConexion(ConnectionError):
 
 class Client:
     """ cliente sockets """
-    def __init__(self, host='localhost', port=6003):
+    def __init__(self, host=HOST, port=PORT):
         self.contactos = ['Turnos Med', '          ']
         self.mensajes = []
         self.nombre = 'Alejandro '
@@ -38,6 +42,7 @@ class Client:
                 self.mensajes.append(msg)
                 self.mensajes.append(self.separador)
                 print(msg)
+                # le aviso a la vista que llegó un mensaje nuevo para que se actualice
                 raise Notificacion
 
     def enviar_mensaje(self, msg):
@@ -45,6 +50,8 @@ class Client:
         try:
             self._socket.send(msg.encode('utf-8'))
         except socket.error:
+            # te enteras que se corto la conexion cuando queres enviar
+            # sino se queda escuchando eternamente
             raise SinConexion()
 
     def get_nombre(self):
