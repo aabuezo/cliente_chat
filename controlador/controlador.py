@@ -8,7 +8,7 @@ import socket
 # si el servidor se ejecuta en otra maquina, se puede cambiar por la IP del servidor
 # entre comillas - recordar habilitar el PORT en el firewall del servidor
 HOST = 'localhost'
-PORT = 3000
+PORT = 3013
 
 
 class Notificacion(Exception):
