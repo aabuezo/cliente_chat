@@ -2,7 +2,7 @@
 
 TP Final de la Diplomatura de Python de la UTN - año 2021
 Requerimientos: realizar un programa cliente/servidor usando patron MVC, clases, decoradores, sockets, ORM y BD SQLite.
-Este repositorio corresponde al servidor, el cliente se encuentra en https://github.com/aabuezo/servidor_chat
+Este repositorio corresponde al cliente, mientras que el servidor se encuentra en https://github.com/aabuezo/servidor_chat
 
 Alumnos:
 - Alejandro A. Buezo
