@@ -1,9 +1,10 @@
 """
-    Autor: Alejandro A. Buezo
-    Ultima modificación: 20-11-2021
+    Cliente Chat-Bot
+    Archivo: vista.py
+    Ultima modificación: 23-11-2021
 """
 from controlador.controlador import Client, Notificacion, SinConexion
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtWidgets
 import threading
 import sys
 
@@ -47,7 +48,6 @@ class VentanaPrincipal(object):
         self.combo_contactos = QtWidgets.QComboBox(self.centralwidget)
         self.combo_contactos.setGeometry(QtCore.QRect(10, 10, 251, 23))
         self.combo_contactos.setObjectName("combo_contactos")
-        # modificado por Alejandro 31-10-2021
         self.combo_contactos.addItems(self.cliente.contactos)
         self.combo_contactos.currentTextChanged.connect(self.combo_pressed)
 
@@ -60,7 +60,6 @@ class VentanaPrincipal(object):
         self.lista_mensajes = QtWidgets.QListWidget(self.centralwidget)
         self.lista_mensajes.setGeometry(QtCore.QRect(10, 40, 251, 251))
         self.lista_mensajes.setObjectName("lista_mensajes")
-        # modificado por Alejandro 31-10-2021
         self.lista_mensajes.setWordWrap(True)
         self.actualizar.start()
 
@@ -68,8 +67,7 @@ class VentanaPrincipal(object):
         self.boton_salir = QtWidgets.QPushButton(self.centralwidget)
         self.boton_salir.setGeometry(QtCore.QRect(10, 390, 251, 31))
         self.boton_salir.setObjectName("boton_salir")
-        # modificado por Alejandro 31-10-2021
-        self.boton_salir.clicked.connect(lambda:MainWindow.close())
+        self.boton_salir.clicked.connect(lambda: MainWindow.close())
 
         # status bar
         MainWindow.setCentralWidget(self.centralwidget)
@@ -80,6 +78,7 @@ class VentanaPrincipal(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+        # thread para recibir mensajes
         self._recv = threading.Thread(target=self.recibir_mensaje)
         self._recv.daemon = True
         self._recv.start()
@@ -128,5 +127,3 @@ class VentanaPrincipal(object):
         """ actualiza la lista de mensajes en la vista """
         self.lista_mensajes.clear()
         self.lista_mensajes.addItems(self.cliente.mensajes)
-
-

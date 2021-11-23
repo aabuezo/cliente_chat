@@ -1,14 +1,15 @@
 """
-    Autor: Alejandro A. Buezo
-    Ultima modificación: 20-11-2021
+    Cliente Chat-Bot
+    Archivo: controlador.py
+    Ultima modificación: 23-11-2021
 """
 import socket
 
 
-# si el servidor se ejecuta en otra maquina, se puede cambiar por la IP del servidor
-# entre comillas - recordar habilitar el PORT en el firewall del servidor
+# si el servidor se ejecuta en otra maquina, se puede cambiar por la IP del servidorentre comillas
+# recordar habilitar el PORT en el firewall del servidor
 HOST = 'localhost'
-PORT = 3013
+PORT = 3000
 
 
 class Notificacion(Exception):
@@ -25,12 +26,12 @@ class SinConexion(ConnectionError):
 class Client:
     """ cliente sockets """
     def __init__(self, host=HOST, port=PORT):
-        self.contactos = ['Turnos Med', '          ']
+        self.contactos = ['Turnos Bot', '          ']
         self.mensajes = []
-        self.nombre = 'Alejandro '
+        self.nombre = 'Juan      '
         self.separador = '-' * 50
         self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self._socket.connect( (host, port))
+        self._socket.connect((host, port))
 
     def recibir_mensaje(self):
         """ metodo que procesa los mensajes entrantes """

@@ -1,6 +1,7 @@
 """
-    Autor: Alejandro A. Buezo
-    Ultima modificación: 20-11-2021
+    Cliente Chat-Bot
+    Archivo: main.py
+    Ultima modificación: 23-11-2021
 """
 from vista.vista import App
 
