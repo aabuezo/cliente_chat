@@ -8,7 +8,7 @@ import threading
 import sys
 
 
-class App():
+class App:
     """ App principal del cliente """
     def __init__(self):
         self.app = QtWidgets.QApplication(sys.argv)
